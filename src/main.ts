@@ -101,7 +101,7 @@ const generateSlackMessage = (text: string): SlackMessage => {
         fallback: text,
         color: getColor(status),
         footer: `<https://github.com/Im-D/slack-hook-action|Powered By Im-d>`,
-        footerIcon: `https://avatars1.githubusercontent.com/u/45911353?s=200&v=4`,
+        footerIcon: `https://avatars1.githubusercontent.com/u/60920160?s=460&u=64291ae714c477c95ea26fdcd3b40ca837349d54&v=4`,
         ts: Math.floor(Date.now() / 1000),
         fields: [
           {
