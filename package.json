@@ -26,7 +26,7 @@
   "author": "Im-D",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.2.0",
+    "@actions/core": "^1.2.6",
     "@actions/github": "^4.0.0",
     "@types/node-fetch": "^2.5.7",
     "node-fetch": "^2.6.0"
