@@ -10,8 +10,11 @@ const SUCESS_COLOR = '#00C0C7'
 const CANCELLED_COLOR = '#FFA900'
 const FAILURE_COLOR = '#FF614E'
 
+const DEV_CONTENTS_REPO = 'Dev-Contents-House'
+
 const post = (slackMessage: SlackMessage): void => {
   const slackWebhookUrl = core.getInput('slack_webhook_url')
+
   fetch(slackWebhookUrl, {
     method: 'POST',
     body: JSON.stringify(slackMessage),
@@ -81,6 +84,7 @@ const getText = (status: string): string => {
   if (status.toLowerCase() === 'started') {
     return started
   }
+
   return 'status no valido'
 }
 
@@ -95,42 +99,41 @@ const generateSlackMessage = (text: string): SlackMessage => {
   return {
     channel,
     username,
-    text: getText(status),
+    text:
+      repo === DEV_CONTENTS_REPO
+        ? '새로운 글이 추가되었습니다.'
+        : getText(status),
     attachments: [
       {
         fallback: text,
         color: getColor(status),
-        footer: `<https://github.com/Im-D/slack-hook-action|Powered By Im-d>`,
+        footer: `<https://github.com/Im-D/slack-hook-action|Powered By Im-D>`,
         footerIcon: `https://avatars1.githubusercontent.com/u/60920160?s=460&u=64291ae714c477c95ea26fdcd3b40ca837349d54&v=4`,
         ts: Math.floor(Date.now() / 1000),
         fields: [
           {
-            title: 'Repository',
+            title: 'README 확인하기',
             value: `<https://github.com/${owner}/${repo}|${owner}/${repo}>`,
-            short: true
-          },
-          {
-            title: 'Ref',
-            value: github.context.ref,
             short: true
           }
         ],
         actions: [
           {
             type: 'button',
-            text: 'Commit',
+            text: 'Commit 확인',
             url: `https://github.com/${owner}/${repo}/commit/${sha}`
           },
           {
             type: 'button',
-            text: 'Action Tab',
-            url: `https://github.com/${owner}/${repo}/commit/${sha}/checks`
+            text: 'READEME 확인',
+            url: `https://github.com/${owner}/${repo}`
           }
         ]
       }
     ]
   }
 }
+
 try {
   post(generateSlackMessage('Sending message'))
 } catch (error) {
